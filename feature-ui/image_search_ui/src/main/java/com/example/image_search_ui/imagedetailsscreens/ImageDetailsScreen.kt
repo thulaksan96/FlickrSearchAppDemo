@@ -39,11 +39,9 @@ import com.example.image_search_ui.imagelistscreens.composablecomponenets.OwnerI
 @Composable
 fun ImageDetailsScreen(
     vm: ImageDetailsScreenViewmodel,
-    imageId: String,
     onBackIconClick: () -> Unit
 ) {
 
-    vm.setImagesId(imageId)
     val uiState = vm.uiState.collectAsState().value
     val scrollState = rememberScrollState()
     var userGalleyVisible by remember { mutableStateOf(false) }

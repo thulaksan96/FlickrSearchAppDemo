@@ -41,7 +41,6 @@ fun NavGraphBuilder.imageDetailsScreen(
         }
 
         ImageDetailsScreen(
-            imageId = it.arguments?.getString("imageId") ?: "",
             vm = viewModel,
             onBackIconClick = popBackStack
         )
