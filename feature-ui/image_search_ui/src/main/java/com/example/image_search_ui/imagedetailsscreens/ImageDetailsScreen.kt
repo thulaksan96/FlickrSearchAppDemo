@@ -22,7 +22,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,11 +37,9 @@ import com.example.image_search_ui.imagelistscreens.composablecomponenets.OwnerI
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImageDetailsScreen(
-    vm: ImageDetailsScreenViewmodel,
-    onBackIconClick: () -> Unit
+    uiState: PhotoDetailsUiState,
+    onBackIconClick: () -> Unit,
 ) {
-
-    val uiState = vm.uiState.collectAsState().value
     val scrollState = rememberScrollState()
     var userGalleyVisible by remember { mutableStateOf(false) }
 
@@ -125,7 +122,6 @@ fun ImageDetailsScreen(
                 )
 
             }
-
         }
     }
 

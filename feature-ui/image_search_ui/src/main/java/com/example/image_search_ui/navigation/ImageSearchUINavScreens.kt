@@ -1,6 +1,7 @@
 package com.example.image_search_ui.navigation
 
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -13,7 +14,7 @@ import com.example.image_search_ui.imagelistscreens.ImageListScreenViewmodel
 import org.koin.androidx.compose.getViewModel
 
 fun NavGraphBuilder.imageListScreen(
-    navigateToDetailsScreen: (String) -> Unit
+    navController: NavController,
 ) {
     composable(NavigationRoutes.SearchScreen.route) {
 
@@ -21,13 +22,13 @@ fun NavGraphBuilder.imageListScreen(
 
         ImageListScreen(
             vm = viewModel,
-            navigateToDetailsScreen = navigateToDetailsScreen
+            navigateToDetailsScreen = navController::navigateToImageDetailsScreen
         )
     }
 }
 
 fun NavGraphBuilder.imageDetailsScreen(
-    popBackStack: () -> Unit
+    navController: NavController,
 ) {
     composable(route = NavigationRoutes.ImageDetailsScreen.route + "/{imageId}",
         arguments = listOf(
@@ -35,14 +36,15 @@ fun NavGraphBuilder.imageDetailsScreen(
         )) {
 
         val viewModel: ImageDetailsScreenViewmodel = getViewModel()
+        val uiState = viewModel.uiState.collectAsState().value
 
         LaunchedEffect(Unit) {
             viewModel.setImagesId(it.arguments?.getString("imageId") ?: "")
         }
 
         ImageDetailsScreen(
-            vm = viewModel,
-            onBackIconClick = popBackStack
+            uiState = uiState,
+            onBackIconClick = navController::popBackStack
         )
     }
 }
