@@ -40,9 +40,7 @@ fun ImageDetailsScreen(
     uiState: PhotoDetailsUiState,
     onBackIconClick: () -> Unit,
 ) {
-    val scrollState = rememberScrollState()
     var userGalleyVisible by remember { mutableStateOf(false) }
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -65,7 +63,7 @@ fun ImageDetailsScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll(scrollState)
+                .verticalScroll( rememberScrollState())
         ) {
 
             Image(
@@ -109,7 +107,6 @@ fun ImageDetailsScreen(
                         .height(600.dp),
                     columns = GridCells.Fixed(2),
                     content = {
-
                         itemsIndexed(uiState.photoList) { index, item ->
                             ImageListCard(
                                 modifier = Modifier.padding(8.dp),

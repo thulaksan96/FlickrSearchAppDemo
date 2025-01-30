@@ -1,11 +1,12 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
     namespace = "com.example.image_search_ui"
-    compileSdk = 33
+    compileSdk = 34
 
     buildFeatures {
         compose = true

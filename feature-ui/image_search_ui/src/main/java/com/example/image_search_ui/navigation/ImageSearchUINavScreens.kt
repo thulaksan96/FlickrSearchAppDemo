@@ -11,18 +11,21 @@ import com.example.image_search_ui.imagedetailsscreens.ImageDetailsScreen
 import com.example.image_search_ui.imagedetailsscreens.ImageDetailsScreenViewmodel
 import com.example.image_search_ui.imagelistscreens.ImageListScreen
 import com.example.image_search_ui.imagelistscreens.ImageListScreenViewmodel
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 fun NavGraphBuilder.imageListScreen(
     navController: NavController,
 ) {
     composable(NavigationRoutes.SearchScreen.route) {
 
-        val viewModel: ImageListScreenViewmodel = getViewModel()
+        val viewModel = koinViewModel<ImageListScreenViewmodel>()
+        val uiState = viewModel.uiState.collectAsState().value
 
         ImageListScreen(
-            vm = viewModel,
-            navigateToDetailsScreen = navController::navigateToImageDetailsScreen
+            uiState = uiState,
+            navigateToDetailsScreen = navController::navigateToImageDetailsScreen,
+            changeSearchQuery = viewModel::changeSearchQuery,
+            search = viewModel::search
         )
     }
 }
@@ -35,7 +38,7 @@ fun NavGraphBuilder.imageDetailsScreen(
             navArgument("imageId") { type = NavType.StringType }
         )) {
 
-        val viewModel: ImageDetailsScreenViewmodel = getViewModel()
+        val viewModel = koinViewModel<ImageDetailsScreenViewmodel>()
         val uiState = viewModel.uiState.collectAsState().value
 
         LaunchedEffect(Unit) {
