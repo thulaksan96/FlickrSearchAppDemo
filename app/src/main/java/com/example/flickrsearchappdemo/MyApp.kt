@@ -1,11 +1,11 @@
 package com.example.flickrsearchappdemo
 
 import android.app.Application
+import com.example.flickr_search.di.flickrSearchModule
 import com.example.image_search_ui.di.ViewmodelModules
-import com.example.image_search_ui.di.flickrSrcmod
 import com.example.networking.di.networkingModule
-import org.koin.core.context.startKoin
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class MyApp : Application() {
 
@@ -16,7 +16,7 @@ class MyApp : Application() {
             modules(
                 listOf(
                     networkingModule,
-                    flickrSrcmod,
+                    flickrSearchModule,
                     ViewmodelModules
                 )
             )

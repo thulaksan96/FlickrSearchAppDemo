@@ -17,5 +17,3 @@ val ViewmodelModules = module {
     }
 
 }
-
-val flickrSrcmod = flickrSearchModule

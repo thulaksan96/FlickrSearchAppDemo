@@ -62,6 +62,7 @@ dependencies {
 
     implementation(project(":common:networking"))
     implementation(project(":feature-ui:image_search_ui"))
+    implementation(project(":feature-api:flickr_search"))
 
     implementation(libs.koin.androidx.compose)
     implementation(libs.koin.core)
