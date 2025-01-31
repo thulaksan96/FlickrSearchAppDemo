@@ -1,6 +1,6 @@
 # FlickrSearchAppDemo
 
-this is a project that uses the Flickr api to search for images. it allows the user to search for images and display them in a non paginated list along with the users icon and username. 
+This Project is still work in progress. This is a project that uses the Flickr api to search for images. it allows the user to search for images and display them in a non paginated list along with the users icon and username. 
 when clicked it navigates to a screen that displays more details about the image as well as a button that displays other images by the same user to view.
 
 this project uses Koin dependecy injection and is used throughout the app eg.creating services and viewmodels. I have modularised it by feature and api and ui domain. this is to encapsulate them to follow good programming principles.
