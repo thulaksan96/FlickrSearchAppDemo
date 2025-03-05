@@ -36,7 +36,7 @@ import com.example.image_search_ui.imagelistscreens.composablecomponenets.OwnerI
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ImageDetailsScreen(
+internal fun ImageDetailsScreen(
     uiState: PhotoDetailsUiState,
     onBackIconClick: () -> Unit,
 ) {

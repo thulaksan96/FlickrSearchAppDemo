@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.flickrsearchappdemo"
-        minSdk = 26
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.compose.material3)
 
     implementation(project(":common:networking"))
+    implementation(project(":common:ui"))
     implementation(project(":feature-ui:image_search_ui"))
     implementation(project(":feature-api:flickr_search"))
 

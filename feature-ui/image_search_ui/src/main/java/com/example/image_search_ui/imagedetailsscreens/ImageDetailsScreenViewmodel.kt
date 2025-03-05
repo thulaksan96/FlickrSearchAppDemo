@@ -9,7 +9,7 @@ import com.example.networking.model.onSuccess
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-class ImageDetailsScreenViewmodel(private val flickrRepo: FlickrRepo) : ViewModel() {
+internal class ImageDetailsScreenViewmodel(private val flickrRepo: FlickrRepo) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PhotoDetailsUiState())
     val uiState = _uiState
@@ -65,14 +65,13 @@ class ImageDetailsScreenViewmodel(private val flickrRepo: FlickrRepo) : ViewMode
 
 }
 
-//TODO move data classes into separate files
-data class PhotoDetailsUiState(
+internal data class PhotoDetailsUiState(
     var imageId: String = "",
     var photoData: PhotoDetails = PhotoDetails(),
     var photoList: List<Photo> = emptyList(),
 )
 
-data class PhotoDetails(
+internal data class PhotoDetails(
     val id: String = "",
     val url: String = "",
     val ownerId: String = "",

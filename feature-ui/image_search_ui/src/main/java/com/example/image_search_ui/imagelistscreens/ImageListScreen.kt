@@ -16,12 +16,12 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.example.image_search_ui.imagelistscreens.composablecomponenets.ImageListCard
+import com.thulaksan.ui.theme.dimens.AppDimensions.PaddingHalf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ImageListScreen(
+internal fun ImageListScreen(
     uiState: PhotoUiState,
     navigateToDetailsScreen: (String) -> Unit,
     changeSearchQuery: (String) -> Unit,
@@ -31,7 +31,7 @@ fun ImageListScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(PaddingHalf),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -39,32 +39,29 @@ fun ImageListScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(3f)
-                    .padding(end = 8.dp),
+                    .padding(end = PaddingHalf),
                 value = uiState.searchQuery,
                 placeholder = { Text(text = "Please enter a search term") },
                 onValueChange = { newValue -> changeSearchQuery(newValue) }
             )
-
-            Button(modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f), onClick = search, content = {
-                Text(text = "Search")
-            })
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f), onClick = search, content = {
+                    Text(text = "Search")
+                })
         }
-
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             content = {
                 items(uiState.photoList) {
                     ImageListCard(
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(PaddingHalf),
                         item = it,
                         navigateToDetailsScreen = navigateToDetailsScreen
                     )
                 }
             }
         )
-
     }
-
 }

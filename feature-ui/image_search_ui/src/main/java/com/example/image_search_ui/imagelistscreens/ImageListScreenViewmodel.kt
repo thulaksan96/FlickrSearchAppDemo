@@ -8,7 +8,7 @@ import com.example.networking.model.onSuccess
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-class ImageListScreenViewmodel(
+internal class ImageListScreenViewmodel(
     private val flickrRepo: FlickrRepo,
 ) : ViewModel() {
 
@@ -48,14 +48,14 @@ class ImageListScreenViewmodel(
 
 }
 
-data class Photo(
+internal data class Photo(
     val id: String,
     val url: String,
     val ownerName: String,
     val ownerIconUrl: String = "",
 )
 
-data class PhotoUiState(
+internal data class PhotoUiState(
     var searchQuery: String = "",
     var photoList: List<Photo> = emptyList(),
 )

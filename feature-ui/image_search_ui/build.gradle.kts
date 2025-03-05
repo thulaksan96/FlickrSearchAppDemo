@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.compose.material3)
 
     implementation(project(":common:networking"))
+    implementation(project(":common:ui"))
     implementation(project(":feature-api:flickr_search"))
 
     implementation(libs.koin.androidx.compose)

@@ -1,54 +1,45 @@
 package com.example.image_search_ui.imagelistscreens.composablecomponenets
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.Text
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 import com.example.image_search_ui.imagelistscreens.Photo
+import com.thulaksan.ui.theme.dimens.AppDimensions.PaddingFourth
+import com.thulaksan.ui.theme.dimens.AppDimensions.PaddingHalf
 
 @Composable
-fun ImageListCard(
+internal fun ImageListCard(
     modifier: Modifier = Modifier,
     item: Photo,
-    navigateToDetailsScreen: (String) -> Unit
+    navigateToDetailsScreen: (String) -> Unit,
 ) {
-    Card(modifier = modifier) {
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .clickable {
-                    navigateToDetailsScreen(item.id)
-                }
-        ) {
-
-            Image(
-                painter = rememberAsyncImagePainter(item.url),
-                contentDescription = "Image from URL",
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { navigateToDetailsScreen(item.id) },
+        elevation = CardDefaults.cardElevation(defaultElevation = PaddingFourth),
+        shape = RoundedCornerShape(PaddingHalf)
+    ) {
+        Column {
+            AsyncImage(
+                model = item.url,
+                contentDescription = null,
                 modifier = Modifier
-                    .size(200.dp)
-                    .padding(8.dp),
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
+                    .clip(RoundedCornerShape(topStart = PaddingHalf, topEnd = PaddingHalf)),
                 contentScale = ContentScale.Crop
             )
-
             OwnerIconAndNameRow(name = item.ownerName, iconUrl = item.ownerIconUrl)
-
         }
-
-
     }
-
 }

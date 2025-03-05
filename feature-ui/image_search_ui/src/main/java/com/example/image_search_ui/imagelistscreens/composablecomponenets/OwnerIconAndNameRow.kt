@@ -1,39 +1,43 @@
 package com.example.image_search_ui.imagelistscreens.composablecomponenets
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
+import com.thulaksan.ui.theme.dimens.AppDimensions.PaddingDefault
+import com.thulaksan.ui.theme.dimens.AppDimensions.PaddingEighth
+import com.thulaksan.ui.theme.dimens.AppDimensions.PaddingHalf
+import com.thulaksan.ui.theme.dimens.AppDimensions.UserIconSize
 
 @Composable
-fun OwnerIconAndNameRow(
+internal fun OwnerIconAndNameRow(
     name: String,
-    iconUrl: String
+    iconUrl: String,
 ) {
     Row(
         modifier = Modifier
-            .padding(horizontal = 8.dp)
-            .padding(bottom = 16.dp),
+            .padding(horizontal = PaddingHalf)
+            .padding(bottom = PaddingDefault, top = PaddingHalf),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
-        Image(
-            painter = rememberAsyncImagePainter(iconUrl),
-            contentDescription = "Image from URL",
+        AsyncImage(
+            model = iconUrl,
+            contentDescription = null,
             modifier = Modifier
-                .size(50.dp)
-                .padding(8.dp),
+                .size(UserIconSize)
+                .padding(PaddingHalf)
+                .aspectRatio(1f)
+                .clip(RoundedCornerShape(PaddingHalf)),
             contentScale = ContentScale.Crop
         )
-
-        Text(modifier = Modifier.padding(start = 2.dp), text = name)
+        Text(modifier = Modifier.padding(start = PaddingEighth), text = name)
     }
-
 }
