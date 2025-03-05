@@ -29,10 +29,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.image_search_ui.imagelistscreens.composablecomponenets.ImageListCard
 import com.example.image_search_ui.imagelistscreens.composablecomponenets.OwnerIconAndNameRow
+import com.thulaksan.ui.R
+import com.thulaksan.ui.theme.dimens.AppDimensions.PaddingDefault
+import com.thulaksan.ui.theme.dimens.AppDimensions.PaddingHalf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,7 +48,7 @@ internal fun ImageDetailsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "details") },
+                title = { Text(text = stringResource(R.string.label_details)) },
                 navigationIcon = {
                     IconButton(onClick = {
                         onBackIconClick()
@@ -57,50 +61,43 @@ internal fun ImageDetailsScreen(
                     }
                 },
             )
-
         }
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll( rememberScrollState())
+                .verticalScroll(rememberScrollState())
         ) {
-
             Image(
                 painter = rememberAsyncImagePainter(uiState.photoData.url),
-                contentDescription = "Image from URL",
+                contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(400.dp)
-                    .padding(8.dp)
+                    .padding(PaddingHalf)
                     .background(Color.Gray),
                 contentScale = ContentScale.Fit
             )
-
             OwnerIconAndNameRow(
                 name = uiState.photoData.ownerName,
                 iconUrl = uiState.photoData.ownerIconUrl
             )
-
             Text(
-                text = "Date taken: ${uiState.photoData.dateTaken}",
-                modifier = Modifier.padding(8.dp)
+                text = stringResource(R.string.label_date_taken, uiState.photoData.dateTaken),
+                modifier = Modifier.padding(PaddingHalf)
             )
-
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(PaddingDefault),
                 onClick = {
                     userGalleyVisible = !userGalleyVisible
                 },
                 content = {
-                    Text(text = "See more from creator")
+                    Text(text = stringResource(R.string.label_see_more_from_creator))
                 },
             )
-
             AnimatedVisibility(visible = userGalleyVisible) {
-
                 LazyVerticalGrid(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -109,17 +106,14 @@ internal fun ImageDetailsScreen(
                     content = {
                         itemsIndexed(uiState.photoList) { index, item ->
                             ImageListCard(
-                                modifier = Modifier.padding(8.dp),
+                                modifier = Modifier.padding(PaddingHalf),
                                 item = item,
                                 navigateToDetailsScreen = {}
                             )
                         }
-
                     }
                 )
-
             }
         }
     }
-
 }
