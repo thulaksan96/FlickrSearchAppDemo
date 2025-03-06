@@ -9,7 +9,7 @@ import com.example.networking.model.onSuccess
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-internal class ImageDetailsScreenViewmodel(private val flickrRepo: FlickrRepo) : ViewModel() {
+internal class ImageDetailsViewmodel(private val flickrRepo: FlickrRepo) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PhotoDetailsUiState())
     val uiState = _uiState

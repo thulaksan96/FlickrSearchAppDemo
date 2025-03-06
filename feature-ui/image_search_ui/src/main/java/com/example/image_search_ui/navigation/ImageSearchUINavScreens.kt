@@ -8,9 +8,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.image_search_ui.imagedetailsscreens.ImageDetailsScreen
-import com.example.image_search_ui.imagedetailsscreens.ImageDetailsScreenViewmodel
+import com.example.image_search_ui.imagedetailsscreens.ImageDetailsViewmodel
 import com.example.image_search_ui.imagelistscreens.ImageListScreen
-import com.example.image_search_ui.imagelistscreens.ImageListScreenViewmodel
+import com.example.image_search_ui.imagelistscreens.ImageListViewmodel
 import org.koin.androidx.compose.koinViewModel
 
 fun NavGraphBuilder.imageListScreen(
@@ -18,7 +18,7 @@ fun NavGraphBuilder.imageListScreen(
 ) {
     composable(NavigationRoutes.SearchScreen.route) {
 
-        val viewModel = koinViewModel<ImageListScreenViewmodel>()
+        val viewModel = koinViewModel<ImageListViewmodel>()
         val uiState = viewModel.uiState.collectAsState().value
 
         ImageListScreen(
@@ -38,7 +38,7 @@ fun NavGraphBuilder.imageDetailsScreen(
             navArgument("imageId") { type = NavType.StringType }
         )) {
 
-        val viewModel = koinViewModel<ImageDetailsScreenViewmodel>()
+        val viewModel = koinViewModel<ImageDetailsViewmodel>()
         val uiState = viewModel.uiState.collectAsState().value
 
         LaunchedEffect(Unit) {
