@@ -69,9 +69,14 @@ dependencies {
     implementation(libs.navigation.ui)
 
     testImplementation(libs.junit)
+    testImplementation(libs.turbine)
+    testImplementation(libs.mockk.android)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.kotest.assertions)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso)
     androidTestImplementation(libs.compose.ui.test.junit4)
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manifest)
+    testImplementation(kotlin("test"))
 }

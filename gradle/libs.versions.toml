@@ -15,6 +15,10 @@ coil = "2.7.0"
 navigation = "2.8.8"
 retrofit = "2.9.0"
 okhttp = "4.9.0"
+turbine = "1.1.0"
+mockk = "1.12.2"
+coroutines = "1.8.0"
+kotestAssetions = "5.8.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -55,6 +59,11 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext" }
 androidx-test-espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+mockk-android = { module = "io.mockk:mockk", version.ref = "mockk" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestAssetions" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version = "8.8.0" }

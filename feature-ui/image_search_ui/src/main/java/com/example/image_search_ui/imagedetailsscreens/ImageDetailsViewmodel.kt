@@ -9,26 +9,23 @@ import com.example.networking.model.onSuccess
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-internal class ImageDetailsViewmodel(private val flickrRepo: FlickrRepo) : ViewModel() {
+internal class ImageDetailsViewmodel(
+    private val imageId: String,
+    private val flickrRepo: FlickrRepo,
+    private val uiMapper: ImageDetailMapper,
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PhotoDetailsUiState())
     val uiState = _uiState
 
+    init {
+        _uiState.value = uiState.value.copy(imageId = imageId)
+        getImageDetails()
+    }
 
     private fun getImageDetails() = viewModelScope.launch {
-        val resource = flickrRepo.getImageDetails(uiState.value.imageId)
-
-        resource.onSuccess { data ->
-            val photoDetails = data.photo.let { photo ->
-                PhotoDetails(
-                    id = photo.id,
-                    url = "https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg",
-                    ownerIconUrl = "https://farm${photo.owner.iconfarm}.staticflickr.com/${photo.owner.iconserver}/buddyicons/${photo.owner.nsid}.jpg",
-                    ownerName = photo.owner.username,
-                    dateTaken = photo.dates.taken,
-                    ownerId = photo.owner.nsid,
-                )
-            }
+        flickrRepo.getImageDetails(uiState.value.imageId).onSuccess { data ->
+            val photoDetails = uiMapper.mapPhotoDetails(data.photo)
             _uiState.value = uiState.value.copy(photoData = photoDetails)
             getImages()
         }.onError {
@@ -40,29 +37,15 @@ internal class ImageDetailsViewmodel(private val flickrRepo: FlickrRepo) : ViewM
         val resource = flickrRepo.fetchImages(
             searchFor = null, userId = uiState.value.photoData.ownerId
         )
-
         resource.onSuccess { data ->
-            //TODO map this on the repo and return
             val photosList = data.photos.photo.map { photo ->
-                Photo(
-                    id = photo.id,
-                    url = "https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg",
-                    ownerName = photo.ownername,
-                    ownerIconUrl = "https://farm${photo.iconfarm}.staticflickr.com/${photo.iconserver}/buddyicons/${photo.owner}.jpg",
-                )
+                uiMapper.mapPhoto(photo)
             }
             _uiState.value = uiState.value.copy(photoList = photosList)
         }.onError {
             //TODO handle error
         }
     }
-
-
-    fun setImagesId(id: String) {
-        _uiState.value = uiState.value.copy(imageId = id)
-        getImageDetails()
-    }
-
 }
 
 internal data class PhotoDetailsUiState(

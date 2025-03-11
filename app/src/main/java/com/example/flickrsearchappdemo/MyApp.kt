@@ -2,7 +2,7 @@ package com.example.flickrsearchappdemo
 
 import android.app.Application
 import com.example.flickr_search.di.flickrSearchModule
-import com.example.image_search_ui.di.ViewmodelModules
+import com.example.image_search_ui.di.ImageSearchUiModules
 import com.example.networking.di.networkingModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -17,7 +17,7 @@ class MyApp : Application() {
                 listOf(
                     networkingModule,
                     flickrSearchModule,
-                    ViewmodelModules
+                    ImageSearchUiModules
                 )
             )
         }

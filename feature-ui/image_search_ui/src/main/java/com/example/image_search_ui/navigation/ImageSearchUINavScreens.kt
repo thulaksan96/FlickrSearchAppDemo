@@ -1,6 +1,5 @@
 package com.example.image_search_ui.navigation
 
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -12,6 +11,7 @@ import com.example.image_search_ui.imagedetailsscreens.ImageDetailsViewmodel
 import com.example.image_search_ui.imagelistscreens.ImageListScreen
 import com.example.image_search_ui.imagelistscreens.ImageListViewmodel
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 fun NavGraphBuilder.imageListScreen(
     navController: NavController,
@@ -38,12 +38,10 @@ fun NavGraphBuilder.imageDetailsScreen(
             navArgument("imageId") { type = NavType.StringType }
         )) {
 
-        val viewModel = koinViewModel<ImageDetailsViewmodel>()
-        val uiState = viewModel.uiState.collectAsState().value
-
-        LaunchedEffect(Unit) {
-            viewModel.setImagesId(it.arguments?.getString("imageId") ?: "")
+        val viewModel = koinViewModel<ImageDetailsViewmodel>{
+            parametersOf(it.arguments?.getString("imageId"))
         }
+        val uiState = viewModel.uiState.collectAsState().value
 
         ImageDetailsScreen(
             uiState = uiState,

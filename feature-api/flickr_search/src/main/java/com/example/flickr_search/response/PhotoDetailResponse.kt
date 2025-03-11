@@ -2,7 +2,6 @@ package com.example.flickr_search.response
 
 data class PhotoDetailResponse(
     val photo: Photo,
-    val stat: String
 )
 
 data class Photo(
