@@ -7,6 +7,7 @@ import com.example.image_search_ui.imagelistscreens.Photo
 import com.example.networking.model.onError
 import com.example.networking.model.onSuccess
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal class ImageDetailsViewmodel(
@@ -19,17 +20,17 @@ internal class ImageDetailsViewmodel(
     val uiState = _uiState
 
     init {
-        _uiState.value = uiState.value.copy(imageId = imageId)
+        _uiState.update { it.copy(imageId = imageId, loading = true) }
         getImageDetails()
     }
 
     private fun getImageDetails() = viewModelScope.launch {
         flickrRepo.getImageDetails(uiState.value.imageId).onSuccess { data ->
             val photoDetails = uiMapper.mapPhotoDetails(data.photo)
-            _uiState.value = uiState.value.copy(photoData = photoDetails)
+            _uiState.update { it.copy(photoData = photoDetails, loading = false) }
             getImages()
         }.onError {
-            //TODO handle error
+            _uiState.update { it.copy(loadDetailFailed = true) }
         }
     }
 
@@ -41,17 +42,20 @@ internal class ImageDetailsViewmodel(
             val photosList = data.photos.photo.map { photo ->
                 uiMapper.mapPhoto(photo)
             }
-            _uiState.value = uiState.value.copy(photoList = photosList)
+            _uiState.update { it.copy(photoList = photosList) }
         }.onError {
-            //TODO handle error
+            _uiState.update { it.copy(loadImagesFailed = true) }
         }
     }
 }
 
 internal data class PhotoDetailsUiState(
-    var imageId: String = "",
-    var photoData: PhotoDetails = PhotoDetails(),
-    var photoList: List<Photo> = emptyList(),
+    val loading: Boolean = false,
+    val imageId: String = "",
+    val photoData: PhotoDetails = PhotoDetails(),
+    val photoList: List<Photo> = emptyList(),
+    val loadDetailFailed: Boolean = false,
+    val loadImagesFailed: Boolean = false,
 )
 
 internal data class PhotoDetails(

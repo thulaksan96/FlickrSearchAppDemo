@@ -12,6 +12,7 @@ import com.example.image_search_ui.imagedetailsscreens.PhotoDetails
 import com.example.networking.model.Resource
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,28 +30,93 @@ class ImageDetailsViewModelTest {
 
     private lateinit var viewModel: ImageDetailsViewmodel
     private val flickrRepo: FlickrRepo = mockk(relaxed = true)
-    private val uiMapper: ImageDetailMapper = mockk(relaxed = true)
+    private val uiMapper: ImageDetailMapper = mockk()
     private val testDispatcher = StandardTestDispatcher()
     private val testScope = TestScope(testDispatcher)
 
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
+    }
+
+    @Test
+    fun `when initialized, viewmodel sets imageId and loads details successfully`() = testScope.runTest {
         coEvery { flickrRepo.getImageDetails(any()) } returns Resource.Success(
             data = fakePhotoDetailResponse
         )
+        every { uiMapper.mapPhotoDetails(any()) } returns mockPhotoDetails()
         viewModel = ImageDetailsViewmodel(
             imageId = "12345",
             flickrRepo = flickrRepo,
             uiMapper = uiMapper
         )
-    }
 
-    @Test
-    fun `when initialized, viewmodel sets imageId and loads details`() = testScope.runTest {
         viewModel.uiState.test {
             with(awaitItem()) {
                 imageId shouldBe "12345"
+                loading shouldBe true
+                photoData shouldBe PhotoDetails()
+            }
+            with(awaitItem()) {
+                imageId shouldBe "12345"
+                loading shouldBe false
+                photoData shouldBe mockPhotoDetails()
+            }
+        }
+    }
+
+    @Test
+    fun `when initialized, viewmodel sets imageId and details fails to load`() = testScope.runTest {
+        coEvery { flickrRepo.getImageDetails(any()) } returns Resource.Error(responseCode = null)
+        every { uiMapper.mapPhotoDetails(any()) } returns mockPhotoDetails()
+        viewModel = ImageDetailsViewmodel(
+            imageId = "12345",
+            flickrRepo = flickrRepo,
+            uiMapper = uiMapper
+        )
+
+        viewModel.uiState.test {
+            with(awaitItem()) {
+                imageId shouldBe "12345"
+                loading shouldBe true
+                photoData shouldBe PhotoDetails()
+            }
+            with(awaitItem()) {
+                imageId shouldBe "12345"
+                loading shouldBe true
+                photoData shouldBe PhotoDetails()
+                loadDetailFailed shouldBe true
+            }
+        }
+    }
+
+    @Test
+    fun `when initialized, viewmodel sets imageId and images fails to load`() = testScope.runTest {
+        coEvery { flickrRepo.getImageDetails(any()) } returns Resource.Success(
+            data = fakePhotoDetailResponse
+        )
+        coEvery { flickrRepo.fetchImages(any(),any()) } returns Resource.Error(responseCode = null)
+        every { uiMapper.mapPhotoDetails(any()) } returns mockPhotoDetails()
+        viewModel = ImageDetailsViewmodel(
+            imageId = "12345",
+            flickrRepo = flickrRepo,
+            uiMapper = uiMapper
+        )
+
+        viewModel.uiState.test {
+            with(awaitItem()) {
+                imageId shouldBe "12345"
+                loading shouldBe true
+                photoData shouldBe PhotoDetails()
+            }
+            with(awaitItem()) {
+                imageId shouldBe "12345"
+                loading shouldBe false
+                photoData shouldBe mockPhotoDetails()
+            }
+            with(awaitItem()) {
+                imageId shouldBe "12345"
+                loadImagesFailed shouldBe true
             }
         }
     }

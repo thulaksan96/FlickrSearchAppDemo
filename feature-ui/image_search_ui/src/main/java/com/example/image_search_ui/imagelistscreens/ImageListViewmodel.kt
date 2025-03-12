@@ -6,6 +6,7 @@ import com.example.flickr_search.repo.FlickrRepo
 import com.example.networking.model.onError
 import com.example.networking.model.onSuccess
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal class ImageListViewmodel(
@@ -32,14 +33,14 @@ internal class ImageListViewmodel(
                     ownerIconUrl = "https://farm${photo.iconfarm}.staticflickr.com/${photo.iconserver}/buddyicons/${photo.owner}.jpg",
                 )
             }
-            _uiState.value = uiState.value.copy(photoList = photosList)
+            _uiState.update { it.copy(photoList = photosList) }
         }.onError {
             //TODO handle error
         }
     }
 
     fun changeSearchQuery(query: String) {
-        _uiState.value = uiState.value.copy(searchQuery = query)
+        _uiState.update { it.copy(searchQuery = query) }
     }
 
     fun search() {
