@@ -8,5 +8,4 @@ val networkingModule = module {
     single<Networking> {
         NetworkingImpl()
     }
-
 }
