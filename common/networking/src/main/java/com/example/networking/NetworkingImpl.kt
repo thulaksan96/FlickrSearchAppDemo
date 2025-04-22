@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+// TODO move to local.properties
 const val API_KEY = "3e7cc266ae2b0e0d78e279ce8e361736"
 private const val FLICKR_BASE_URL = "https://api.flickr.com/services/rest/"
 

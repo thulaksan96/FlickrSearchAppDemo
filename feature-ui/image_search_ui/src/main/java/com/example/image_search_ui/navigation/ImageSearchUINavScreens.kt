@@ -3,27 +3,30 @@ package com.example.image_search_ui.navigation
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.example.image_search_ui.imagedetailsscreens.ImageDetailsScreen
 import com.example.image_search_ui.imagedetailsscreens.ImageDetailsViewmodel
 import com.example.image_search_ui.imagelistscreens.ImageListScreen
 import com.example.image_search_ui.imagelistscreens.ImageListViewmodel
+import com.example.image_search_ui.navigation.NavigationRoutes.ImageDetailsScreen
+import com.example.image_search_ui.navigation.NavigationRoutes.SearchScreen
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 fun NavGraphBuilder.imageListScreen(
     navController: NavController,
 ) {
-    composable(NavigationRoutes.SearchScreen.route) {
+    composable<SearchScreen> {
 
         val viewModel = koinViewModel<ImageListViewmodel>()
         val uiState = viewModel.uiState.collectAsState().value
 
         ImageListScreen(
             uiState = uiState,
-            navigateToDetailsScreen = navController::navigateToImageDetailsScreen,
+            navigateToDetailsScreen = { imageId ->
+                navController.navigate(ImageDetailsScreen(imageId))
+            },
             changeSearchQuery = viewModel::changeSearchQuery,
             search = viewModel::search
         )
@@ -33,13 +36,11 @@ fun NavGraphBuilder.imageListScreen(
 fun NavGraphBuilder.imageDetailsScreen(
     navController: NavController,
 ) {
-    composable(route = NavigationRoutes.ImageDetailsScreen.route + "/{imageId}",
-        arguments = listOf(
-            navArgument("imageId") { type = NavType.StringType }
-        )) {
+    composable<ImageDetailsScreen> {
+        val args = it.toRoute<ImageDetailsScreen>()
 
-        val viewModel = koinViewModel<ImageDetailsViewmodel>{
-            parametersOf(it.arguments?.getString("imageId"))
+        val viewModel = koinViewModel<ImageDetailsViewmodel> {
+            parametersOf(args.imageId)
         }
         val uiState = viewModel.uiState.collectAsState().value
 
@@ -50,6 +51,3 @@ fun NavGraphBuilder.imageDetailsScreen(
     }
 }
 
-fun NavController.navigateToImageDetailsScreen(imageId: String) {
-    navigate(NavigationRoutes.ImageDetailsScreen.route + "/" + imageId)
-}

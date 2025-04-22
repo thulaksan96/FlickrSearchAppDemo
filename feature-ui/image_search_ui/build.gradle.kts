@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit)
     testImplementation(libs.turbine)

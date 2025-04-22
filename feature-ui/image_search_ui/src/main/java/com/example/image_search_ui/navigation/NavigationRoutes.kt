@@ -1,7 +1,10 @@
 package com.example.image_search_ui.navigation
 
-//TODO update to new
-enum class NavigationRoutes(val route: String) {
-    SearchScreen("search_home_screen"),
-    ImageDetailsScreen("image_details_screen")
+import kotlinx.serialization.Serializable
+
+sealed class NavigationRoutes{
+    @Serializable
+    object SearchScreen : NavigationRoutes()
+    @Serializable
+    data class ImageDetailsScreen(val imageId: String) : NavigationRoutes()
 }

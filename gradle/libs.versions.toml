@@ -19,6 +19,8 @@ turbine = "1.1.0"
 mockk = "1.12.2"
 coroutines = "1.8.0"
 kotestAssetions = "5.8.0"
+kotlinxSerialisation = "1.6.3"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -46,6 +48,10 @@ koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compos
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
+
+
+# Serialization
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "kotlinxSerialisation" }
 
 # Networking
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
